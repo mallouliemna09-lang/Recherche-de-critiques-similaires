@@ -24,7 +24,7 @@ flowchart LR
 
     %% --- Pipeline offline ---
     subgraph PIPELINE["🛠 Prétraitement & Indexation"]
-        B1[Nettoyage HTML strip_html()]
+        B1[Nettoyage HTML]
         B2[Concaténation titre + contenu → full_review]
         B3[Chunking 512 tokens + overlap]
         B4[Embedding des chunks MiniLM multilingue]
@@ -45,7 +45,7 @@ flowchart LR
         D1[Choix du film selectbox("Interstellar"/"Fight Club")]
         D2[Saisie / Coller une critique]
         D3[Encodage de la requête MiniLM]
-        D4[Recherche dans FAISSdu film choisi]
+        D4[Recherche dans FAISS du film choisi]
         D5[Regroupement par critique originale + tri par score]
         D6[Affichage des critiques similaires + score de similarité]
     end
