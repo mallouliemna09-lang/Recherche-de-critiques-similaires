@@ -16,48 +16,42 @@ Ce diagramme illustre le flux complet du système : depuis le chargement des cri
 ```mermaid
 flowchart LR
 
-    %% --- Sources de donnees ---
-    subgraph DATA["📂 Donnees d'entree"]
+    subgraph DATA["Donnees d entree"]
         A1[interstellar_critiques.csv]
         A2[fightclub_critiques.csv]
     end
 
-    %% --- Pipeline offline ---
-    subgraph PIPELINE["🛠 Pretraitement et Indexation"]
+    subgraph PIPELINE["Pretraitement et Indexation"]
         B1[Nettoyage HTML avec strip_html]
         B2[Fusion titre + contenu vers full_review]
         B3[Chunking 512 tokens avec overlap]
         B4[Embeddings des chunks avec MiniLM multilingue]
-        B5[Creation index FAISS type IndexFlatIP]
+        B5[Creation index FAISS IndexFlatIP]
         B6[Sauvegarde des metadonnees meta_chunks_film.csv]
     end
 
-    %% --- Artifacts par film ---
-    subgraph ARTIFACTS["💾 Artifacts par film"]
+    subgraph ARTIFACTS["Artifacts par film"]
         C1[faiss_Interstellar.index]
         C2[meta_chunks_Interstellar.csv]
         C3[faiss_FightClub.index]
         C4[meta_chunks_FightClub.csv]
     end
 
-    %% --- Interface web ---
-    subgraph APP["🌐 Application Streamlit"]
+    subgraph APP["Application Streamlit "]
         D1[Choix du film dans selectbox]
-        D2[Saisie ou collage d'une critique]
+        D2[Saisie ou collage d une critique]
         D3[Encodage de la requete avec MiniLM]
         D4[Recherche kNN dans FAISS du film choisi]
         D5[Regroupement par critique originale et tri par score]
         D6[Affichage des critiques similaires avec score]
     end
 
-    %% Flux de gauche a droite
     A1 --> B1
     A2 --> B1
     B1 --> B2 --> B3 --> B4 --> B5 --> ARTIFACTS
     B4 --> B6 --> ARTIFACTS
 
-    %% Selection dynamique a l'execution
-    ARTIFACTS -->|load_resources_for_movie(movie_name)| D1
+    ARTIFACTS --> D1
     D1 --> D2 --> D3 --> D4 --> D5 --> D6
 
 ```
