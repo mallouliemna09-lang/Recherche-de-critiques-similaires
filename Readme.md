@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="interface.png" alt="Aperçu de l'application Streamlit" width="90%">
+  <img src="https://github.com/mallouliemna09-lang/Recherche-de-critiques-similaires/blob/main/Interface.png" alt="Aperçu de l'application Streamlit" width="90%">
 </p>
 
 # 🎬 Système de recommandation de critiques similaires
