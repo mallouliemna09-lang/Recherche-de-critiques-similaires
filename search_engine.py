@@ -94,7 +94,7 @@ def embed_query(query_text, model, tokenizer):
     mean_vec = np.mean(part_vecs, axis=0, keepdims=True)
     return mean_vec.astype("float32")
 
-
+"""
 def load_resources():
     chunks_df = pd.read_csv("meta_chunks.csv")
     index = faiss.read_index("faiss.index")
@@ -102,7 +102,14 @@ def load_resources():
     tokenizer = AutoTokenizer.from_pretrained(MODEL)
 
     return chunks_df, index, model, tokenizer
+"""
 
+def load_resources_for_movie(movie_name):
+    chunks_df = pd.read_csv(f"meta_chunks_{movie_name}.csv")
+    index = faiss.read_index(f"faiss_{movie_name}.index")
+    model = SentenceTransformer(MODEL)
+    tokenizer = AutoTokenizer.from_pretrained(MODEL)
+    return chunks_df, index, model, tokenizer
 
 
 def search_similarity_3(query_text, k, chunks_df, index, model, tokenizer):

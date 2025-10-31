@@ -1,3 +1,14 @@
+
+<p align="center">
+  <img src="interface.png" alt="Aperçu de l'application Streamlit" width="90%">
+</p>
+
+# 🎬 Système de recommandation de critiques similaires
+
+Une interface Streamlit interactive permettant de retrouver les critiques les plus similaires d’un même film, à partir d’un texte saisi par l’utilisateur.
+
+---
+
 # 🎬 Système de recommandation de critiques similaires 
 
 ## 💡Démarche de conception
@@ -29,6 +40,20 @@ J’ai adopté une approche exploratoire et progressive pour concevoir un moteur
 7. **Résultats observés :**  
    - Copie exacte d’une critique → score ≈ **1.0**  
    - Reformulation / résumé → score ≈ **0.75 – 0.85**
+
+8. **Adaptation multi-films:**
+
+   L’énoncé imposant que les recommandations concernent uniquement le même film, j’ai adapté la logique d’indexation :
+   J’ai remplacé la fonction build_vector_database() par une version générique paramétrée (build_vector_database_for_movie) capable de générer un index FAISS pour chaque film séparément à partir de son CSV (interstellar_critiques.csv et fightclub_critiques.csv).
+
+   Chaque film dispose ainsi de ses propres fichiers :
+      -faiss_interstellar.index, meta_chunks_interstellar.csv
+      -faiss_fightclub.index, meta_chunks_fightclub.csv
+
+   Cette séparation garantit que les critiques suggérées appartiennent toujours au même film que la requête.
+
+   Dans l’application Streamlit, j’ai ajouté un sélecteur (movie_choice) permettant de choisir le film avant la recherche.
+   Selon ce choix, le moteur charge automatiquement l’index FAISS correspondant.
 ---
 
 ## ⚙️ Choix techniques justifiés
