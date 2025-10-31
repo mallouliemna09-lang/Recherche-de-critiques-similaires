@@ -41,7 +41,7 @@ flowchart LR
         D1[Choix du film dans selectbox]
         D2[Saisie ou collage d une critique]
         D3[Encodage de la requete avec MiniLM]
-        D4[Recherche kNN dans FAISS du film choisi]
+        D4[Recherche dans FAISS du film choisi]
         D5[Regroupement par critique originale et tri par score]
         D6[Affichage des critiques similaires avec score]
     end
