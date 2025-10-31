@@ -24,12 +24,12 @@ flowchart LR
 
     %% --- Pipeline offline ---
     subgraph PIPELINE["🛠 Prétraitement & Indexation"]
-        B1[Nettoyage HTML<br/>strip_html()]
-        B2[Concaténation titre + contenu<br/>→ full_review]
-        B3[Chunking 512 tokens<br/>+ overlap]
-        B4[Embedding des chunks<br/>MiniLM multilingue]
-        B5[Construction index FAISS<br/>(IndexFlatIP)]
-        B6[Sauvegarde des métadonnées<br/>meta_chunks_<film>.csv]
+        B1[Nettoyage HTML strip_html()]
+        B2[Concaténation titre + contenu → full_review]
+        B3[Chunking 512 tokens + overlap]
+        B4[Embedding des chunks MiniLM multilingue]
+        B5[Construction index FAISS (IndexFlatIP)]
+        B6[Sauvegarde des métadonnées meta_chunks_<film>.csv]
     end
 
     %% --- Artifacts par film ---
@@ -42,12 +42,12 @@ flowchart LR
 
     %% --- Interface interactive ---
     subgraph APP["🌐 Application Streamlit"]
-        D1[Choix du film<br/>selectbox("Interstellar"/"Fight Club")]
+        D1[Choix du film selectbox("Interstellar"/"Fight Club")]
         D2[Saisie / Coller une critique]
-        D3[Encodage de la requête<br/>MiniLM]
-        D4[Recherche dans FAISS<br/>du film choisi]
-        D5[Regroupement par critique originale<br/>+ tri par score]
-        D6[Affichage des critiques similaires<br/>+ score de similarité]
+        D3[Encodage de la requête MiniLM]
+        D4[Recherche dans FAISSdu film choisi]
+        D5[Regroupement par critique originale + tri par score]
+        D6[Affichage des critiques similaires + score de similarité]
     end
 
     %% Flux de gauche à droite
