@@ -60,6 +60,9 @@ flowchart LR
     ARTIFACTS -->|load_resources_for_movie(movie_name)| D1
     D1 --> D2 --> D3 --> D4 --> D5 --> D6
 
+
+```
+
 ## 💡Démarche de conception
 
 J’ai adopté une approche exploratoire et progressive pour concevoir un moteur de recherche sémantique robuste :
