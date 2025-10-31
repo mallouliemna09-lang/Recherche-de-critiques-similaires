@@ -9,7 +9,56 @@ Une interface Streamlit interactive permettant de retrouver les critiques les pl
 
 ---
 
-# 🎬 Système de recommandation de critiques similaires 
+## 🧭 Architecture du système
+
+Ce diagramme illustre le flux complet du système : depuis le chargement des critiques jusqu’à la recherche de similarité dans Streamlit.
+
+```mermaid
+flowchart LR
+
+    %% --- Sources de données ---
+    subgraph DATA["📂 Données d'entrée"]
+        A1[interstellar_critiques.csv]
+        A2[fightclub_critiques.csv]
+    end
+
+    %% --- Pipeline offline ---
+    subgraph PIPELINE["🛠 Prétraitement & Indexation"]
+        B1[Nettoyage HTML<br/>strip_html()]
+        B2[Concaténation titre + contenu<br/>→ full_review]
+        B3[Chunking 512 tokens<br/>+ overlap]
+        B4[Embedding des chunks<br/>MiniLM multilingue]
+        B5[Construction index FAISS<br/>(IndexFlatIP)]
+        B6[Sauvegarde des métadonnées<br/>meta_chunks_<film>.csv]
+    end
+
+    %% --- Artifacts par film ---
+    subgraph ARTIFACTS["💾 Artifacts par film"]
+        C1[faiss_Interstellar.index]
+        C2[meta_chunks_Interstellar.csv]
+        C3[faiss_FightClub.index]
+        C4[meta_chunks_FightClub.csv]
+    end
+
+    %% --- Interface interactive ---
+    subgraph APP["🌐 Application Streamlit"]
+        D1[Choix du film<br/>selectbox("Interstellar"/"Fight Club")]
+        D2[Saisie / Coller une critique]
+        D3[Encodage de la requête<br/>MiniLM]
+        D4[Recherche dans FAISS<br/>du film choisi]
+        D5[Regroupement par critique originale<br/>+ tri par score]
+        D6[Affichage des critiques similaires<br/>+ score de similarité]
+    end
+
+    %% Flux de gauche à droite
+    A1 --> B1
+    A2 --> B1
+    B1 --> B2 --> B3 --> B4 --> B5 --> ARTIFACTS
+    B4 --> B6 --> ARTIFACTS
+
+    %% Sélection dynamique à l'exécution
+    ARTIFACTS -->|load_resources_for_movie(movie_name)| D1
+    D1 --> D2 --> D3 --> D4 --> D5 --> D6
 
 ## 💡Démarche de conception
 
